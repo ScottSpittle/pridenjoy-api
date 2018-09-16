@@ -13,6 +13,8 @@ return [
 
     'name' => env('APP_NAME', 'Lumen API Starter'),
 
+    'old_secret' => env('APP_OLD_SECRET', false),
+
     'version' => env('APP_VERSION', 'unknown'),
 
     'debug' => env('APP_DEBUG', false),
@@ -74,6 +76,7 @@ return [
         Barryvdh\Cors\ServiceProvider::class => 'all',
         Tymon\JWTAuth\Providers\LumenServiceProvider::class => 'all',
         Flipbox\LumenGenerator\LumenGeneratorServiceProvider::class => ['development', 'local'],
+        \Illuminate\Mail\MailServiceProvider::class => 'all'
     ],
 
 

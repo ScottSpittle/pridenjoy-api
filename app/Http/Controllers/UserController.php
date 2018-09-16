@@ -50,10 +50,10 @@ class UserController extends Controller
         $this->checkUsername($user, $input['username']);
 
         $user->username = $input['username'];
-        $user->first = $input['first'];
-        $user->last = $input['last'];
-        $user->home = $input['home'];
-        $user->mobile = $input['mobile'];
+        $user->firstName = $input['first'];
+        $user->lastName = $input['last'];
+        $user->telHome = $input['home'];
+        $user->telMobile = $input['mobile'];
         $user->address = $input['address'];
 
         $user->save();

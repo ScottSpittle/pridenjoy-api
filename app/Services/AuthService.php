@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\User;
 use Tymon\JWTAuth\JWTAuth;
 use Tymon\JWTAuth\Exceptions\JWTException;
 use Illuminate\Support\Validation\Validator;
@@ -36,7 +37,7 @@ class AuthService extends BaseService
     public function user()
     {
         try {
-            if (! $user = $this->auth->user()) {
+            if (!$user = $this->auth->user()) {
                 throw new NotFoundHttpException('User not found');
             }
 
@@ -50,6 +51,7 @@ class AuthService extends BaseService
      * Authenticate a user against email and password.
      *
      * @param  array $credentials
+     *
      * @return string
      */
     public function authenticate(array $credentials)
@@ -59,8 +61,23 @@ class AuthService extends BaseService
             'password' => 'required'
         ]);
 
-        if (! $token = $this->auth->attempt($credentials)) {
-            throw new UnauthorizedHttpException(401, 'Invalid credentials');
+        /**
+         * Here we have to manually hash the password for old users to see if they are authenticated
+         *
+         * This can be skipped for newly registered users as they will get a newly hashed password
+         */
+        $password = sha1(config('app.old_secret') . $credentials['password']);
+
+        $user = User::on()->where('email', $credentials['email'])
+                    ->where('password', $password)
+                    ->first();
+
+        if (!is_null($user)) { // old user
+            $token = $this->auth->fromUser($user);
+        } else { // new user
+            if (!$token = $this->auth->attempt($credentials)) {
+                throw new UnauthorizedHttpException(401, 'Invalid credentials');
+            }
         }
 
         return $token;
@@ -74,7 +91,7 @@ class AuthService extends BaseService
     public function refresh()
     {
         try {
-            if (! $refresh = $this->auth->refresh()) {
+            if (!$refresh = $this->auth->refresh()) {
                 throw new HttpException(500, 'Could not refresh token');
             }
 
@@ -92,7 +109,7 @@ class AuthService extends BaseService
     public function invalidate()
     {
         try {
-            if (! $this->auth->parseToken()->invalidate(true)) {
+            if (!$this->auth->parseToken()->invalidate(true)) {
                 throw new HttpException(500, 'Could not invalidate token');
             }
         } catch (JWTException $e) {

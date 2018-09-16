@@ -41,14 +41,15 @@ foreach ([
     'database',
     'exceptions',
     'jwt',
+    'mail',
+    'services',
     // 'queue',
     // 'view',
 ] as $file) {
     $app->configure($file);
 }
 
-// $app->withFacades();
-
+$app->withFacades();
 $app->withEloquent();
 
 /*

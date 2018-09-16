@@ -23,14 +23,21 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
         'email'
     ];
 
+    protected $dates = [
+        'joinDate',
+        'loginDate'
+    ];
+
     /**
      * The attributes excluded from the model's JSON form.
      *
      * @var array
      */
     protected $hidden = [
-         'password'
+        'password'
     ];
+
+    public $timestamps = false;
 
     /**
      * Encrypt password attribute before setting.
@@ -51,6 +58,7 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
     {
         return $this->getKey();
     }
+
     /**
      * Return a key value array, containing any custom claims to be added to the JWT.
      *
@@ -59,5 +67,19 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
     public function getJWTCustomClaims()
     {
         return [];
+    }
+
+    /**
+     * @param $email
+     *
+     * @return bool
+     */
+    public static function hasActivated($email)
+    {
+        $count = User::on()->where('email', $email)
+                     ->where('activateAccKey',  null)
+                     ->count();
+
+        return $count > 0;
     }
 }

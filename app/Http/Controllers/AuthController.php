@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Discount;
 use App\Mail\ActivationRequest;
-use App\Mail\ForgotPassword;
 use App\User;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Mail;

@@ -21,4 +21,6 @@ $app->group(['prefix' => 'public'], function () use ($app) {
 
     $app->post('/auth', 'AuthController@login');
     $app->post('/auth/register', 'AuthController@register');
+
+    $app->post('/contact', 'ContactController@send');
 });

@@ -43,7 +43,7 @@ foreach ([
     'jwt',
     'mail',
     'services',
-    // 'queue',
+    'queue',
     // 'view',
 ] as $file) {
     $app->configure($file);

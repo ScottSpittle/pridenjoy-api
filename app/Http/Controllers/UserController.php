@@ -85,6 +85,46 @@ class UserController extends Controller
     }
 
     /**
+     * @param Request $request
+     *
+     * @return \Illuminate\Http\Response|\Laravel\Lumen\Http\ResponseFactory
+     */
+    public function updatePassword(Request $request) {
+        $this->validate($request, [
+            'password' => 'required|confirmed'
+        ]);
+
+        $input = $request->input();
+        $user = $this->auth->user();
+
+        $user->setPasswordAttribute($input['password']);
+        $user->save();
+
+        return response(null, 204);
+    }
+
+    /**
+     * @param Request $request
+     *
+     * @return \Illuminate\Http\Response|\Laravel\Lumen\Http\ResponseFactory
+     */
+    public function updateMarketing(Request $request) {
+        $this->validate($request, [
+            'xmasCardOK' => 'required|boolean',
+            'promoMaterial' => 'required|boolean'
+        ]);
+
+        $input = $request->input();
+        $user = $this->auth->user();
+
+        $user->xmasCardOK = $input['xmasCardOK'];
+        $user->promoMaterial = $input['promoMaterial'];
+        $user->save();
+
+        return response(null, 204);
+    }
+
+    /**
      * @param User   $user
      * @param string $username
      */

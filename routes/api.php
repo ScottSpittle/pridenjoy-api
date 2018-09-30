@@ -20,4 +20,6 @@ $app->group(['prefix' => 'api', 'middleware' => 'jwt.auth'], function () use ($a
 
     $app->put('/user/personal', 'UserController@updatePersonal');
     $app->put('/user/email', 'UserController@updateEmail');
+    $app->put('/user/password', 'UserController@updatePassword');
+    $app->put('/user/marketing', 'UserController@updateMarketing');
 });

@@ -16,6 +16,10 @@ $app->group(['prefix' => 'public'], function () use ($app) {
         return [
             "app" => config('app.name'),
             "version" => config('app.version'),
+            "config-app" => config('app'),
+            "config-email" => config('mail'),
+            "config-services" => config('services'),
+            "config-database" => config('database')
         ];
     });
 

@@ -11,11 +11,11 @@ return [
     |
     */
 
-    'name' => env('APP_NAME', 'Lumen API Starter'),
+    'name' => env('APP_NAME', 'Pride-n-Joy API'),
 
     'old_secret' => env('APP_OLD_SECRET', false),
 
-    'version' => env('APP_VERSION', 'unknown'),
+    'version' => env('APP_VERSION', '1.0.0'),
 
     'debug' => env('APP_DEBUG', false),
 
